@@ -4,6 +4,7 @@
 #include <math.h>
 #include <corecrt_math.h>
 #include "VectorTransforms.h"
+#include "Painter.h"
 
 
 LanderCharacter::LanderCharacter(float horizontalSpeed, float verticalSpeed, float rotation, float fuel, float fuelRate, float burnModifier, float sideSize, float mass)
@@ -91,22 +92,20 @@ void LanderCharacter::rotate(float value, float dt)
 	printf("Rotation is %f", rotation);
 }
 
-void LanderCharacter::draw(uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH])
+void LanderCharacter::draw()
 {
 	if (!buffer && bounds.empty()) return;
 
-	/*if (VectorTransforms::bIsMatrix(bounds))
-	{
-		memset(buffer, 1000, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-	}*/
-
-	for (int i = 0; i < bounds.size(); i++)
+	/*for (int i = 0; i < bounds.size(); i++)
 	{
 		uint32_t horizontal = (uint32_t)roundf(bounds[i][0]);
 		uint32_t vertical = (uint32_t)roundf(bounds[i][1]);
 		if(horizontal < 0 || horizontal > SCREEN_WIDTH || vertical < 0 || vertical > SCREEN_HEIGHT) continue;
 		buffer[vertical][horizontal] = 1000;
-	}
+	}*/
+
+	Painter::DrawLine(bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1], 1000);
+	Painter::DrawLineSequence(bounds, 1000);
 
 	calculateMassCenter();
 	uint32_t horizontal = (uint32_t)roundf(massCenter[0]);

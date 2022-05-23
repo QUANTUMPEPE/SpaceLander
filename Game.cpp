@@ -61,7 +61,7 @@ void draw()
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
   if(character)
   {
-    character->draw(buffer);
+    character->draw();
   }
 
 

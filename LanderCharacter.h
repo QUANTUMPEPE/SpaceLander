@@ -4,7 +4,6 @@
 #include <vector>
 #include "Engine.h"
 
-
 #define _USE_MATH_DEFINES
 
 using namespace std;
@@ -27,7 +26,7 @@ public:
 	void burnEngine(float dt);
 	void move(float dt);
 	void rotate(float value, float dt);
-	void draw(uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH]);
+	void draw();
 
 	~LanderCharacter()
 	{
