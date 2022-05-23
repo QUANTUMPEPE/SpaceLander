@@ -3,13 +3,13 @@
 struct Point {
 	Point()
 	{
-		this->x = 0;
-		this->y = 0;
+		this->horizontal = 0;
+		this->vertical = 0;
 	}
-	Point(float x, float y)
+	Point(float horizontal, float vertical)
 	{
-		this->x = x;
-		this->y = y;
+		this->horizontal = horizontal;
+		this->vertical = vertical;
 	}
-	float x, y;
+	float horizontal, vertical;
 };

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <iostream>
+#include "LanderCharacter.h"
 
 //
 //  You are free to modify this file
@@ -16,13 +17,14 @@
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
 
-
+LanderCharacter* character;
 // initialize game data in this function
 void initialize()
 {
+    character = new LanderCharacter();
+    character->spawn(500.f, 350.f);
     //Generate LandScape
     //Init HUD
-    //Init SpaceShip
 }
 
 // this function is called to update game data,
@@ -31,7 +33,24 @@ void act(float dt)
 {
   if (is_key_pressed(VK_ESCAPE))
     schedule_quit_game();
-
+    
+  if(character)
+  {
+    cout<< character->GetRotation() <<endl;
+    if(is_key_pressed(VK_SPACE))
+    {
+        character->burnEngine(dt);
+    }
+    if(is_key_pressed(VK_LEFT) && !is_key_pressed(VK_RIGHT))
+    {
+        character->rotate(-90.f, dt);
+    }
+	if (is_key_pressed(VK_RIGHT) && !is_key_pressed(VK_LEFT))
+	{
+		character->rotate(90.f, dt);
+	}
+    character->move(dt);
+  }
 }
 
 // fill buffer in this function
@@ -40,12 +59,17 @@ void draw()
 {
   // clear backbuffer
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
+  if(character)
+  {
+    character->draw(buffer);
+  }
+
 
 }
 
 // free game data in this function
 void finalize()
 {
-    
+    delete character;
 }
 
