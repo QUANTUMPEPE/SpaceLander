@@ -3,6 +3,7 @@
 #include <memory.h>
 #include <iostream>
 #include "LanderCharacter.h"
+#include "Level.h"
 
 //
 //  You are free to modify this file
@@ -18,11 +19,15 @@
 //  schedule_quit_game() - quit game after act()
 
 LanderCharacter* character;
+Level* level;
 // initialize game data in this function
 void initialize()
 {
     character = new LanderCharacter();
-    character->spawn(500.f, 350.f);
+    character->Spawn(500.f, 350.f);
+
+    level = new Level();
+    level->Generate(20.f, 450, SCREEN_HEIGHT - 5);
     //Generate LandScape
     //Init HUD
 }
@@ -39,17 +44,17 @@ void act(float dt)
     cout<< character->GetRotation() <<endl;
     if(is_key_pressed(VK_SPACE))
     {
-        character->burnEngine(dt);
+        character->BurnEngine(dt);
     }
     if(is_key_pressed(VK_LEFT) && !is_key_pressed(VK_RIGHT))
     {
-        character->rotate(-90.f, dt);
+        character->Rotate(-90.f, dt);
     }
 	if (is_key_pressed(VK_RIGHT) && !is_key_pressed(VK_LEFT))
 	{
-		character->rotate(90.f, dt);
+		character->Rotate(90.f, dt);
 	}
-    character->move(dt);
+    character->Move(dt);
   }
 }
 
@@ -61,9 +66,12 @@ void draw()
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
   if(character)
   {
-    character->draw();
+    character->Draw();
   }
-
+  if(level)
+  {
+    level->Draw();
+  }
 
 }
 

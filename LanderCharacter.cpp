@@ -3,8 +3,8 @@
 #include <vector>
 #include <math.h>
 #include <corecrt_math.h>
-#include "VectorTransforms.h"
 #include "Painter.h"
+#include "CMath.h"
 
 
 LanderCharacter::LanderCharacter(float horizontalSpeed, float verticalSpeed, float rotation, float fuel, float fuelRate, float burnModifier, float sideSize, float mass)
@@ -19,7 +19,7 @@ LanderCharacter::LanderCharacter(float horizontalSpeed, float verticalSpeed, flo
 	this->mass = mass;
 }
 
-void LanderCharacter::spawn(float horizontal, float vertical)
+void LanderCharacter::Spawn(float horizontal, float vertical)
 {
 	bounds.clear();
 	bounds.push_back({ horizontal, vertical, 1 });
@@ -29,16 +29,16 @@ void LanderCharacter::spawn(float horizontal, float vertical)
 	bounds.push_back({horizontal, vertical - sideSize, 1});
 }
 
-void LanderCharacter::burnEngine(float dt)
+void LanderCharacter::BurnEngine(float dt)
 {
 	if(fuel < 0.f) return;
-	spendFuel(fuelRate, dt);
+	SpendFuel(fuelRate, dt);
 
-	verticalSpeed += burnModifier * sin(rotation * M_PI / 180.f) * dt;
-	horizontalSpeed += burnModifier * cos(rotation * M_PI / 180.f) * dt;
+	verticalSpeed += burnModifier * sin(CMath::DegreesToRadians(rotation)) * dt;
+	horizontalSpeed += burnModifier * cos(CMath::DegreesToRadians(rotation)) * dt;
 }
 
-void LanderCharacter::spendFuel(float value, float dt)
+void LanderCharacter::SpendFuel(float value, float dt)
 {
 	if (fuel - value * dt < 0)
 	{
@@ -48,13 +48,13 @@ void LanderCharacter::spendFuel(float value, float dt)
 	fuel -= value * dt;
 }
 
-void LanderCharacter::addPhysics(float dt)
+void LanderCharacter::AddPhysics(float dt)
 {
 	verticalSpeed -= g*mass*dt;
 	horizontalSpeed -= atmosResistModifier*horizontalSpeed*dt;
 }
 
-void LanderCharacter::calculateMassCenter()
+void LanderCharacter::CalculateMassCenter()
 {
 	float horizontal = abs(bounds[0][0] + bounds[1][0]) /2.f;
 	float vertical = abs(bounds[2][1] + bounds[0][1]) / 2.f;
@@ -62,9 +62,9 @@ void LanderCharacter::calculateMassCenter()
 	massCenter[1] = vertical;
 }
 
-void LanderCharacter::move(float dt)
+void LanderCharacter::Move(float dt)
 {	
-	addPhysics(dt);
+	AddPhysics(dt);
 	for (int i = 0; i < bounds.size(); i++)
 	{
 		bounds[i][0] += horizontalSpeed * dt;
@@ -72,7 +72,7 @@ void LanderCharacter::move(float dt)
 	}
 }
 
-void LanderCharacter::rotate(float value, float dt)
+void LanderCharacter::Rotate(float value, float dt)
 {	
 	if((rotation + value) >= 360.f)
 	{
@@ -87,31 +87,21 @@ void LanderCharacter::rotate(float value, float dt)
 	{
 		rotation -= value * dt;
 	}
-	calculateMassCenter();
-	VectorTransforms::RotateAroundPoint(bounds,	massCenter, value * dt);
+	CalculateMassCenter();
+	CMath::RotateAroundPoint(bounds,	massCenter, value * dt);
 	printf("Rotation is %f", rotation);
 }
 
-void LanderCharacter::draw()
+void LanderCharacter::Draw()
 {
 	if (!buffer && bounds.empty()) return;
 
-	/*for (int i = 0; i < bounds.size(); i++)
-	{
-		uint32_t horizontal = (uint32_t)roundf(bounds[i][0]);
-		uint32_t vertical = (uint32_t)roundf(bounds[i][1]);
-		if(horizontal < 0 || horizontal > SCREEN_WIDTH || vertical < 0 || vertical > SCREEN_HEIGHT) continue;
-		buffer[vertical][horizontal] = 1000;
-	}*/
-
-	Painter::DrawLine(bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1], 1000);
+	//Drawing Lander
 	Painter::DrawLineSequence(bounds, 1000);
 
-	calculateMassCenter();
+	CalculateMassCenter();
 	uint32_t horizontal = (uint32_t)roundf(massCenter[0]);
 	uint32_t vertical = (uint32_t)roundf(massCenter[1]);
-	buffer[vertical][horizontal] = 1000;
-
-	
+	Painter::PutPixel(horizontal, vertical, 1000);
 }
 

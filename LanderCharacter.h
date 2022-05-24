@@ -18,15 +18,15 @@ public:
 		float fuel = 10000.f,
 		float fuelRate = 1.f,
 		float burnModifier = 50.f,
-		float sideSize = 10.f,
-		float mass = 10.f
+		float sideSize = 25.f,
+		float mass = 20.f
 	);
 
-	void spawn(float horizontal, float vertical);
-	void burnEngine(float dt);
-	void move(float dt);
-	void rotate(float value, float dt);
-	void draw();
+	void Spawn(float horizontal, float vertical);
+	void BurnEngine(float dt);
+	void Move(float dt);
+	void Rotate(float value, float dt);
+	void Draw();
 
 	~LanderCharacter()
 	{
@@ -53,9 +53,9 @@ private:
 	vector<vector<float>> bounds;
 	vector<float> massCenter {3, 1};
 
-	void spendFuel(float value, float dt);
-	void addPhysics(float dt);
-	void calculateMassCenter();
+	void SpendFuel(float value, float dt);
+	void AddPhysics(float dt);
+	void CalculateMassCenter();
 	
 public:
 	vector<vector<float>> GetBounds() { return bounds; }

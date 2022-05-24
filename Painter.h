@@ -8,11 +8,12 @@ using namespace std;
 class Painter
 {
 public:
-	Painter();
-
 	static void DrawLine(float x, float y, float x2, float y2, int color);
 
-	static void DrawLineSequence(vector<vector<float>> sequence, int color);
+	static void DrawLineSequence(vector<vector<float>> sequence, int color, bool bIsCycled = true);
+
+	static void PutPixel (int x, int y, int color);
+
 private:
 
 };

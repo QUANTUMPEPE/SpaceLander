@@ -29,10 +29,13 @@
     <ClCompile Include="LanderCharacter.cpp">
       <Filter>LunarLander\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VectorTransforms.cpp">
+    <ClCompile Include="Painter.cpp">
       <Filter>LunarLander\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Painter.cpp">
+    <ClCompile Include="Level.cpp">
+      <Filter>LunarLander\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMath.cpp">
       <Filter>LunarLander\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,10 +49,13 @@
     <ClInclude Include="Point.h">
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VectorTransforms.h">
+    <ClInclude Include="Painter.h">
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Painter.h">
+    <ClInclude Include="Level.h">
+      <Filter>LunarLander\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMath.h">
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
