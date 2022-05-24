@@ -24,6 +24,7 @@
     <ProjectGuid>{5efb5d12-65a6-43be-9636-fa6bd1c4392f}</ProjectGuid>
     <RootNamespace>GameTemplate</RootNamespace>
     <ProjectName>GameTemplate</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="CMath.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="LanderCharacter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Painter.h" />
@@ -155,6 +157,7 @@
     <ClCompile Include="CMath.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="LanderCharacter.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Painter.cpp" />

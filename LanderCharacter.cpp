@@ -68,10 +68,12 @@ void LanderCharacter::Move(float dt)
 	AddPhysics(dt);
 	for (int i = 0; i < bounds.size(); i++)
 	{
+		if(bIsDead) return;
 		if (bounds[i][0]< -xOutOfBounds || bounds[i][0] > SCREEN_WIDTH + xOutOfBounds || 
-			bounds[i][1]< -yOutOfBounds || bounds[i][0] > SCREEN_HEIGHT)
+			bounds[i][1]< -yOutOfBounds || bounds[i][1] > SCREEN_HEIGHT)
 		{
 			bIsDead = true;
+			return;
 		}
 
 		bounds[i][0] += horizontalSpeed * dt;

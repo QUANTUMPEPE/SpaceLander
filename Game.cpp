@@ -4,6 +4,7 @@
 #include <iostream>
 #include "LanderCharacter.h"
 #include "Level.h"
+#include "HUD.h"
 
 //
 //  You are free to modify this file
@@ -20,6 +21,7 @@
 
 LanderCharacter* character;
 Level* level;
+HUD* hud;
 // initialize game data in this function
 void initialize()
 {
@@ -29,17 +31,24 @@ void initialize()
 
     level = new Level(character->GetSize());
     level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, 0.5f);
-    //Init HUD
+    
+    if(character)
+    {
+        hud = new HUD(character);
+    }
+
 }
 
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
+  if(!is_window_active()) return;
+
   if (is_key_pressed(VK_ESCAPE))
     schedule_quit_game();
     
-  if(character)
+  if(character && !character->IsDead())
   {
     cout<< character->GetRotation() <<endl;
     if(is_key_pressed(VK_SPACE))
@@ -64,7 +73,7 @@ void draw()
 {
   // clear backbuffer
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-  if(character)
+  if(character && !character->IsDead())
   {
     character->Draw();
   }
@@ -78,5 +87,6 @@ void draw()
 void finalize()
 {
     delete character;
+    delete level;
 }
 

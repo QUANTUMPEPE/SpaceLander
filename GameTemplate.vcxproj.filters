@@ -38,6 +38,9 @@
     <ClCompile Include="CMath.cpp">
       <Filter>LunarLander\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>LunarLander\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -56,6 +59,9 @@
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMath.h">
+      <Filter>LunarLander\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
