@@ -7,15 +7,18 @@ using namespace std;
 class Level
 {
 public:
-	Level ();
+	Level (float characterSizeSize);
 
-	void Generate(float radius, int minHeight, int maxHeight);
+	void Generate(float radius, int minHeight, int maxHeight, int padFreq, float dificulty);
 
 	void Draw();
 private:
-	//float radius = 30.f;
-	//int minHeight = 450;
-	//int maxHeight = SCREEN_HEIGHT-5;
+	float characterSize;
+
+	/*
+	 *	In level [Point num][0 = horizontal axis; 1 = vertical axis]
+	 */
 	vector<vector<float>> landBounds;
+	vector<bool> landType;
 };
 

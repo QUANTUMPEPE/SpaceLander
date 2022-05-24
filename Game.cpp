@@ -23,12 +23,12 @@ Level* level;
 // initialize game data in this function
 void initialize()
 {
+    srand(time(0));
     character = new LanderCharacter();
     character->Spawn(500.f, 350.f);
 
-    level = new Level();
-    level->Generate(20.f, 450, SCREEN_HEIGHT - 5);
-    //Generate LandScape
+    level = new Level(character->GetSize());
+    level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, 0.5f);
     //Init HUD
 }
 
@@ -72,7 +72,6 @@ void draw()
   {
     level->Draw();
   }
-
 }
 
 // free game data in this function

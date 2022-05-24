@@ -18,7 +18,7 @@ public:
 		float fuel = 10000.f,
 		float fuelRate = 1.f,
 		float burnModifier = 50.f,
-		float sideSize = 25.f,
+		float sideSize = 15.f,
 		float mass = 20.f
 	);
 
@@ -45,6 +45,10 @@ private:
 
 	//Size of bounds box
 	float sideSize = 10.f;
+	
+	bool bIsDead = false;
+	float xOutOfBounds = 100.f;
+	float yOutOfBounds = 300.f;
 
 	/*
 	 *	In bounds [Point num][0 = horizontal axis; 1 = vertical axis; 2 = for matrix multiplying] 
@@ -62,5 +66,7 @@ public:
 	void SetG (float value) { g = value; }
 	void SetAtmosphericResistance (float value) { atmosResistModifier = value; }
 	float GetRotation(){ return rotation; }
+	float GetSize(){ return sideSize; }
+	bool IsDead(){ return bIsDead; }
 };
 

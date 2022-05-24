@@ -21,6 +21,7 @@ LanderCharacter::LanderCharacter(float horizontalSpeed, float verticalSpeed, flo
 
 void LanderCharacter::Spawn(float horizontal, float vertical)
 {
+	bIsDead = false;
 	bounds.clear();
 	bounds.push_back({ horizontal, vertical, 1 });
 	bounds.push_back({horizontal + sideSize, vertical, 1});
@@ -67,6 +68,12 @@ void LanderCharacter::Move(float dt)
 	AddPhysics(dt);
 	for (int i = 0; i < bounds.size(); i++)
 	{
+		if (bounds[i][0]< -xOutOfBounds || bounds[i][0] > SCREEN_WIDTH + xOutOfBounds || 
+			bounds[i][1]< -yOutOfBounds || bounds[i][0] > SCREEN_HEIGHT)
+		{
+			bIsDead = true;
+		}
+
 		bounds[i][0] += horizontalSpeed * dt;
 		bounds[i][1] += -verticalSpeed * dt;
 	}
@@ -97,11 +104,11 @@ void LanderCharacter::Draw()
 	if (!buffer && bounds.empty()) return;
 
 	//Drawing Lander
-	Painter::DrawLineSequence(bounds, 1000);
+	Painter::DrawLineSequence(bounds, Painter::RGBToUInt32(255, 100, 100));
 
 	CalculateMassCenter();
 	uint32_t horizontal = (uint32_t)roundf(massCenter[0]);
 	uint32_t vertical = (uint32_t)roundf(massCenter[1]);
-	Painter::PutPixel(horizontal, vertical, 1000);
+	Painter::PutPixel(horizontal, vertical, Painter::RGBToUInt32(255, 100, 100));
 }
 

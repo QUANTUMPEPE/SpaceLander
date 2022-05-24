@@ -5,7 +5,7 @@
  * Bresenham's line algorithm
  */
 
-void Painter::DrawLine(float x1f, float y1f, float x2f, float y2f, int color)
+void Painter::DrawLine(float x1f, float y1f, float x2f, float y2f, uint32_t color)
 {
 	int x1 = (int)roundf(x1f);
 	int x2 = (int)roundf(x2f);
@@ -35,7 +35,7 @@ void Painter::DrawLine(float x1f, float y1f, float x2f, float y2f, int color)
     }
 }
 
-void Painter::DrawLineSequence(vector<vector<float>> sequence, int color, bool bIsCycled)
+void Painter::DrawLineSequence(vector<vector<float>> sequence, uint32_t color, bool bIsCycled)
 {
 	for (int i = 1; i< sequence.size(); i++)
 	{
@@ -47,11 +47,15 @@ void Painter::DrawLineSequence(vector<vector<float>> sequence, int color, bool b
     }
 }
 
-void Painter::PutPixel(int x, int y, int color)
+void Painter::PutPixel(int x, int y, uint32_t color)
 {
     if (x < 0 || x > SCREEN_WIDTH || y < 0 || y > SCREEN_HEIGHT) return;
     buffer[y][x] = color;
 }
 
+uint32_t Painter::RGBToUInt32(int r, int g, int b)
+{
+    return (uint32_t)r << 16 | (uint32_t)g << 8 | (uint32_t)b;
+}
 
 
