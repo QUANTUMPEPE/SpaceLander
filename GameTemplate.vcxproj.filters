@@ -64,5 +64,8 @@
     <ClInclude Include="HUD.h">
       <Filter>LunarLander\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HitResult.h">
+      <Filter>LunarLander\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

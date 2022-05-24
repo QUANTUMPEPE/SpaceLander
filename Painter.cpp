@@ -1,10 +1,6 @@
 #include "Painter.h"
 #include <corecrt_math.h>
 
-/*
- * Bresenham's line algorithm
- */
-
 void Painter::DrawLine(float x1f, float y1f, float x2f, float y2f, uint32_t color)
 {
 	int x1 = (int)roundf(x1f);
@@ -35,7 +31,7 @@ void Painter::DrawLine(float x1f, float y1f, float x2f, float y2f, uint32_t colo
     }
 }
 
-void Painter::DrawLineSequence(vector<vector<float>> sequence, uint32_t color, bool bIsCycled)
+void Painter::DrawLineSequence(std::vector<std::vector<float>> sequence, uint32_t color, bool bIsCycled)
 {
 	for (int i = 1; i< sequence.size(); i++)
 	{

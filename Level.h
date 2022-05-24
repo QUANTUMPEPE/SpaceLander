@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include <vector>
 
-using namespace std;
 
 class Level
 {
@@ -18,7 +17,7 @@ private:
 	/*
 	 *	In level [Point num][0 = horizontal axis; 1 = vertical axis]
 	 */
-	vector<vector<float>> landBounds;
-	vector<bool> landType;
+	std::vector<std::vector<float>> landBounds;
+	std::vector<bool> landType;
 };
 

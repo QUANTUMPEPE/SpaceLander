@@ -19,6 +19,7 @@
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
 
+
 LanderCharacter* character;
 Level* level;
 HUD* hud;
@@ -30,13 +31,12 @@ void initialize()
     character->Spawn(500.f, 350.f);
 
     level = new Level(character->GetSize());
-    level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, 0.5f);
+    level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 2, .1f);
     
     if(character)
     {
         hud = new HUD(character);
     }
-
 }
 
 // this function is called to update game data,
@@ -50,7 +50,6 @@ void act(float dt)
     
   if(character && !character->IsDead())
   {
-    cout<< character->GetRotation() <<endl;
     if(is_key_pressed(VK_SPACE))
     {
         character->BurnEngine(dt);
@@ -64,6 +63,11 @@ void act(float dt)
 		character->Rotate(90.f, dt);
 	}
     character->Move(dt);
+  }
+
+  if(hud)
+  {
+    hud->AddToTime(dt);
   }
 }
 
@@ -80,6 +84,10 @@ void draw()
   if(level)
   {
     level->Draw();
+  }
+  if (hud)
+  {
+	  hud->Update();
   }
 }
 

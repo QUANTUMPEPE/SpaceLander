@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="CMath.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="HitResult.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="LanderCharacter.h" />
     <ClInclude Include="Level.h" />

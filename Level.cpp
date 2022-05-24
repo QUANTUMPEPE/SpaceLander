@@ -4,6 +4,7 @@
 #include "Painter.h"
 #include "CMath.h"
 #include <algorithm>
+#include "HUD.h"
 
 Level::Level(float characterSizeSize)
 {
@@ -12,7 +13,7 @@ Level::Level(float characterSizeSize)
 
 void Level::Generate(float radius, int minHeight, int maxHeight, int padFreq, float difficulty)
 {
-	difficulty = clamp(difficulty, 0.f, 1.f);
+	difficulty = std::clamp(difficulty, 0.f, 1.f);
 	float y = CMath::RandBetween(minHeight, maxHeight);
 	float x = 0;
 
@@ -37,7 +38,7 @@ void Level::Generate(float radius, int minHeight, int maxHeight, int padFreq, fl
 		{
 			nextX = landBounds.back()[0] + radius * cos(CMath::DegreesToRadians(CMath::RandBetween(-90, 90)));
 			nextY = landBounds.back()[1] + radius * sin(CMath::DegreesToRadians(CMath::RandBetween(-90, 90)));
-			nextY = clamp((int)roundf(nextY), minHeight, maxHeight);
+			nextY = std::clamp((int)roundf(nextY), minHeight, maxHeight);
 			landType.push_back(false);
 		}
 		landBounds.push_back({nextX, nextY});
@@ -54,9 +55,9 @@ void Level::Draw()
 	{
 		if (landType[i-1] == true && landType[i] == true)
 		{
-			Painter::DrawLine(landBounds[i-1][0], landBounds[i - 1][1], landBounds[i][0], landBounds[i][1], Painter::RGBToUInt32(0, 255, 0));
+			Painter::DrawLine(landBounds[i-1][0], landBounds[i - 1][1], landBounds[i][0], landBounds[i][1], PAD_COLOR);
 			continue;
 		}
-		Painter::DrawLine(landBounds[i - 1][0], landBounds[i - 1][1], landBounds[i][0], landBounds[i][1], Painter::RGBToUInt32(255, 255, 255));
+		Painter::DrawLine(landBounds[i - 1][0], landBounds[i - 1][1], landBounds[i][0], landBounds[i][1], LANDSCAPE_COLOR);
 	}
 }
