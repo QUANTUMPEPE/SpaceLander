@@ -56,7 +56,7 @@ void regenerateLevel()
 
     if(level)
     {
-        level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
+        level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 100, gameDifficult);
     }
 }
 
