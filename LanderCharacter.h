@@ -30,7 +30,7 @@ private:
 	float verticalSpeed = 0.f;
 	float fuel = 100.f;
 	float rotation = 90.f;
-	float burnModifier = 100000.f;
+	float burnModifier = 50.f;
 	float fuelRate = 100.f;
 	float mass = 1.f;
 
