@@ -9,6 +9,10 @@
 #define PAD_COLOR Painter::RGBToUInt32(0, 255, 0)
 #define LANDER_COLOR Painter::RGBToUInt32(255, 0, 0)
 
+/*
+ * Handles All signs and gamestate
+ */
+
 class HUD
 {
 public:

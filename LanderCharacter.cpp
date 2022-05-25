@@ -126,7 +126,7 @@ void LanderCharacter::CheckCollision()
 		{
 			if(hit.hitObject == LANDSCAPE_COLOR)
 			{
-				bIsDead = true;
+    				bIsDead = true;
 				return;
 			}
 			if (hit.hitObject == PAD_COLOR && GetVelocity()<killVelocity)

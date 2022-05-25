@@ -97,7 +97,7 @@ std::vector<std::vector<float>> CMath::ExcludeSafeBounds(std::vector<std::vector
 
 	for(std::vector<float> point : temp)
 	{
-		if(point[0]<maxLeft)
+		if(point[0]<=maxLeft)
 		{
 			maxLeft = point[0];
 			vMaxLeft = point;
@@ -107,6 +107,11 @@ std::vector<std::vector<float>> CMath::ExcludeSafeBounds(std::vector<std::vector
 			maxRight = point[0];
 			vMaxRight = point;
 		}
+	}
+
+	if(vMaxRight.empty() || vMaxLeft.empty())
+	{
+		return temp;
 	}
 
 	float minHeight = vMaxRight[1] > vMaxLeft[1] ? vMaxLeft[1] : vMaxRight[1];

@@ -34,7 +34,7 @@ void Level::Generate(float radius, int minHeight, int maxHeight, int padFreq, fl
 			else {landType.back() = true;}
 				
 			nextY = landBounds.back()[1];
-			nextX = landBounds.back()[0] + characterSize + characterSize*(1.f - difficulty);
+			nextX = landBounds.back()[0] + characterSize + characterSize*(1.5f - difficulty);
 			
 			landType.push_back(true);
 		}

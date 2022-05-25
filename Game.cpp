@@ -5,6 +5,7 @@
 #include "LanderCharacter.h"
 #include "Level.h"
 #include "HUD.h"
+#include "CMath.h"
 
 //
 //  You are free to modify this file
@@ -23,7 +24,42 @@
 LanderCharacter* character;
 Level* level;
 HUD* hud;
+
+float gameDifficult = 0.f;
+
 // initialize game data in this function
+void regenerateLevel()
+{
+    int maxLevelHeight = 300;
+
+	int x = CMath::RandBetween(30, SCREEN_WIDTH - 30);
+	int y = CMath::RandBetween(0, maxLevelHeight - 50);
+
+    int vSSign = x < SCREEN_WIDTH/2 ? 1 : -1;
+
+    float verticalSpeed = CMath::RandBetween(-30, 30);
+    float horizontalSpeed = CMath::RandBetween(0, 50) * vSSign;
+
+    float fuel = ((SCREEN_WIDTH - y) + horizontalSpeed)/2.f + 100;
+
+    int levelHeight = CMath::RandBetween(maxLevelHeight, SCREEN_HEIGHT - 5);
+	if (hud)
+	{
+		hud->SetGameState(true);
+        hud->ResetTime();
+	}
+
+    if(character)
+    {
+        character->Spawn(x, y, horizontalSpeed, verticalSpeed, fuel);
+    }
+
+    if(level)
+    {
+        level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
+    }
+}
+
 void initialize()
 {
     srand(time(0));
@@ -43,34 +79,17 @@ void act(float dt)
     //To start or retart game
 	if (is_key_pressed(VK_RETURN))
 	{
-        if(hud)
-        {
-			hud->SetGameState(true);
-			hud->Reset();
-        }
-		if(level)
-        {
-            level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
-        }
-        if(character)
-        {
-            character->Spawn(500.f, 350.f, 50.f, -20.f, 500);
-        }
-
+       gameDifficult = 0.f;
+       regenerateLevel();
+       hud->Reset();
 	}
     //If successfuly landed
     if(character->IsLanded())
     {
         clear_buffer();
 		hud->CountScore();
-		hud->ResetTime();
-        level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
-        character->Spawn(100.f, 150.f, 200.f, -20.f, 500);
-    }
-    if(character->IsDead())
-    {
-        hud->Reset();
-        hud->SetGameState(false);
+        gameDifficult =+ 0.01f;
+        regenerateLevel();
     }
     
     if(!is_window_active()) return;
@@ -81,6 +100,12 @@ void act(float dt)
       // Acting if game is on
     if(hud->IsGameRunnig())
     {
+		if (character && character->IsDead())
+		{
+			hud->Reset();
+			hud->SetGameState(false);
+		}
+
         if (character && !character->IsDead())
         {
         	if (is_key_pressed(VK_SPACE))
