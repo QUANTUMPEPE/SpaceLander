@@ -13,7 +13,11 @@ Level::Level(float characterSizeSize)
 
 void Level::Generate(float radius, int minHeight, int maxHeight, int padFreq, float difficulty)
 {
+	landType.clear();
+	landBounds.clear();
+
 	difficulty = std::clamp(difficulty, 0.f, 1.f);
+
 	float y = CMath::RandBetween(minHeight, maxHeight);
 	float x = 0;
 

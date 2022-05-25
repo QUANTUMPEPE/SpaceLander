@@ -28,14 +28,11 @@ void initialize()
 {
     srand(time(0));
     character = new LanderCharacter();
-    character->Spawn(500.f, 350.f);
 
-    level = new Level(character->GetSize());
-    level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 2, .1f);
-    
     if(character)
     {
         hud = new HUD(character);
+        level = new Level(character->GetSize());
     }
 }
 
@@ -43,32 +40,68 @@ void initialize()
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
-  if(!is_window_active()) return;
-
-  if (is_key_pressed(VK_ESCAPE))
-    schedule_quit_game();
-    
-  if(character && !character->IsDead())
-  {
-    if(is_key_pressed(VK_SPACE))
-    {
-        character->BurnEngine(dt);
-    }
-    if(is_key_pressed(VK_LEFT) && !is_key_pressed(VK_RIGHT))
-    {
-        character->Rotate(-90.f, dt);
-    }
-	if (is_key_pressed(VK_RIGHT) && !is_key_pressed(VK_LEFT))
+    //To start or retart game
+	if (is_key_pressed(VK_RETURN))
 	{
-		character->Rotate(90.f, dt);
-	}
-    character->Move(dt);
-  }
+        if(hud)
+        {
+			hud->SetGameState(true);
+			hud->Reset();
+        }
+		if(level)
+        {
+            level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
+        }
+        if(character)
+        {
+            character->Spawn(500.f, 350.f, 50.f, -20.f, 500);
+        }
 
-  if(hud)
-  {
-    hud->AddToTime(dt);
-  }
+	}
+    //If successfuly landed
+    if(character->IsLanded())
+    {
+        clear_buffer();
+		hud->CountScore();
+		hud->ResetTime();
+        level->Generate(15.f, 450, SCREEN_HEIGHT - 5, 35, .1f);
+        character->Spawn(100.f, 150.f, 200.f, -20.f, 500);
+    }
+    if(character->IsDead())
+    {
+        hud->Reset();
+        hud->SetGameState(false);
+    }
+    
+    if(!is_window_active()) return;
+    
+    if (is_key_pressed(VK_ESCAPE))
+      schedule_quit_game();
+    
+      // Acting if game is on
+    if(hud->IsGameRunnig())
+    {
+        if (character && !character->IsDead())
+        {
+        	if (is_key_pressed(VK_SPACE))
+        	{
+        	    character->BurnEngine(dt);
+        	}
+        	if (is_key_pressed(VK_LEFT) && !is_key_pressed(VK_RIGHT))
+        	{
+        	    character->Rotate(-90.f, dt);
+        	}
+        	if (is_key_pressed(VK_RIGHT) && !is_key_pressed(VK_LEFT))
+        	{
+        	     character->Rotate(90.f, dt);
+        	}
+        	character->Move(dt);
+        }
+        if (hud)
+        {
+        	  hud->AddToTime(dt);
+        }
+    }
 }
 
 // fill buffer in this function
@@ -77,14 +110,19 @@ void draw()
 {
   // clear backbuffer
   memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-  if(character && !character->IsDead())
+
+  if(hud->IsGameRunnig())
   {
-    character->Draw();
-  }
-  if(level)
-  {
-    level->Draw();
-  }
+	  if (character && !character->IsDead())
+	  {
+		  character->Draw();
+	  }
+	  if (level)
+	  {
+		  level->Draw();
+	  }
+  } 
+
   if (hud)
   {
 	  hud->Update();
@@ -96,5 +134,6 @@ void finalize()
 {
     delete character;
     delete level;
+	delete hud;
 }
 

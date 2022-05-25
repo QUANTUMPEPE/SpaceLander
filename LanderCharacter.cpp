@@ -9,28 +9,31 @@
 #include <algorithm>
 
 
-LanderCharacter::LanderCharacter(float horizontalSpeed, float verticalSpeed, float rotation, float fuel, float fuelRate, float burnModifier, float sideSize, float mass)
-{
-	this->horizontalSpeed = horizontalSpeed;
-	this->verticalSpeed = verticalSpeed;
-	this->rotation = rotation;
-	this->fuel = fuel;
+LanderCharacter::LanderCharacter( float fuelRate, float burnModifier, float sideSize, float mass)
+{	
 	this->fuelRate = fuelRate;
 	this->burnModifier = burnModifier;
 	this->sideSize = sideSize;
 	this->mass = mass;
 }
 
-void LanderCharacter::Spawn(float horizontal, float vertical)
+void LanderCharacter::Spawn(float x, float y, float horizontalSpeed, float verticalSpeed, float fuel)
 {
 	bIsDead = false;
-	bounds.clear();
-	bounds.push_back({ horizontal, vertical - sideSize, 1 });
-	bounds.push_back({ horizontal, vertical, 1 });
-	bounds.push_back({horizontal + sideSize, vertical, 1});
-	bounds.push_back({horizontal + sideSize, vertical - sideSize, 1});
-	bounds.push_back({horizontal + sideSize / 2.f, vertical - sideSize * 1.5f, 1});
+	bIsLanded = false;
 
+	this->horizontalSpeed = horizontalSpeed;
+	this->verticalSpeed = verticalSpeed;
+	this->fuel = fuel;
+
+	rotation = 90.f;
+
+	bounds.clear();
+	bounds.push_back({ x, y - sideSize, 1 });
+	bounds.push_back({ x, y, 1 });
+	bounds.push_back({ x + sideSize, y, 1});
+	bounds.push_back({ x + sideSize, y - sideSize, 1});
+	bounds.push_back({ x + sideSize / 2.f, y - sideSize * 1.5f, 1});
 }
 
 void LanderCharacter::BurnEngine(float dt)
@@ -65,7 +68,6 @@ void LanderCharacter::Move(float dt)
 			bIsDead = true;
 			return;
 		}
-
 		bounds[i][0] += horizontalSpeed * dt;
 		bounds[i][1] += -verticalSpeed * dt;
 	}
@@ -86,6 +88,7 @@ void LanderCharacter::Rotate(float value, float dt)
 	{
 		rotation -= value * dt;
 	}
+
 	CalculateMassCenter();
 	CMath::RotateAroundPoint(bounds, massCenter, value * dt);
 	printf("Rotation is %f", rotation);
@@ -121,7 +124,6 @@ void LanderCharacter::CheckCollision()
 
 		if(hit.bHit)
 		{
-
 			if(hit.hitObject == LANDSCAPE_COLOR)
 			{
 				bIsDead = true;
@@ -131,6 +133,11 @@ void LanderCharacter::CheckCollision()
 			{
 				verticalSpeed = -verticalSpeed*elasticity;
 				horizontalSpeed *= friction;
+
+				if(GetVelocity()<1.f)
+				{
+					bIsLanded = true;
+				}
 				return;
 			}
 			if (hit.hitObject == PAD_COLOR && GetVelocity() > killVelocity)
@@ -138,10 +145,8 @@ void LanderCharacter::CheckCollision()
 				bIsDead = true;
 				return;
 			}
-			if (hit.hitObject == LANDER_COLOR) return;
-     			
+			if (hit.hitObject == LANDER_COLOR) return;	
 		}
-		//Painter::DrawLineSequence(optimizedBounds, Painter::RGBToUInt32(0, 255, 0), false);
 	}
 }
 
