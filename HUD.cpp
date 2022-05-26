@@ -67,6 +67,9 @@ void HUD::Update()
 		rc.top += 36;
 		temp = sScore + std::to_string(lastScore);
 		DrawText(dc, temp.c_str(), lstrlen(temp.c_str()), &rc, DT_CENTER);
+
+		rc.top += 36;
+		DrawText(dc, sControls.c_str(), lstrlen(sControls.c_str()), &rc, DT_CENTER);
 	}
 }
 

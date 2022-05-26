@@ -45,6 +45,7 @@ private:
 	std::string sHighscore = ("High score: ");
 
 	std::string sTitle = ("Space Lander  Press ENTER to start!");
+	std::string sControls = ("Use Space bar for thrust and arrows for rotation!");
 
 	float time = 0.f;
 	int score = 0;
